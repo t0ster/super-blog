@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <p>
+    <a href="{% url 'create_post' %}" class="btn btn-info">New Post</a>
+  </p>
+  <table class="table table-striped">
+      {% for post in post_list %}
+      <tr>
+        <td>
+          <h1><a href="{{ post.get_absolute_url }}">{{post.title}}</a></h1>
+          {% for image in post.images.all %}
+            <img src="{{ image.image.url }}" class="img-thumbnail">
+          {% endfor %}
+          <p>
+            {{post.body}}
+          </p>
+          <p>
+            {% for category in post.categories.all %}
+            <span class="label label-default"><span class="glyphicon glyphicon-tag"></span> {{ category.title }}</span>
+            {% endfor %}
+          </p>
+        </td>
+      </tr>
+      {% endfor %}
+  </table>
+{% endblock %}
