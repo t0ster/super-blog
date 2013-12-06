@@ -102,4 +102,4 @@ class DeletePostView(DeleteView):
 
     @method_decorator(login_required(login_url='/accounts/login/'))
     def dispatch(self, *args, **kwargs):
-        return super(EditPostView, self).dispatch(*args, **kwargs)
+        return super(DeletePostView, self).dispatch(*args, **kwargs)
