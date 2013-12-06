@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% block body_class %}page_blog{% endblock %}
 {% block content %}
   <p>
     <a href="{% url 'create_post' %}" class="btn btn-info">New Post</a>

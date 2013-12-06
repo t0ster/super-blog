@@ -2,7 +2,9 @@ body {
   padding-top: 100px;
 }
 
-/*.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}*/
+.page_blog .navbar-nav #blog_nav a,
+.page_login .navbar-nav #login_nav a,
+.page_register .navbar-nav #register_nav a {
+    color: #ffffff;
+    background-color: #080808;
+}

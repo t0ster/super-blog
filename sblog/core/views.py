@@ -1,21 +1,11 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django import forms
-from django.forms.models import inlineformset_factory, modelformset_factory
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from sblog.core.models import Post, Image
-
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-
-
-class ImageForm(forms.ModelForm):
-    class Meta:
-        model = Image
-        fields = ['image']
+from sblog.core.forms import PostForm, ImageFormSet
 
 
 class BlogView(ListView):
@@ -30,12 +20,13 @@ class PostView(DetailView):
     context_object_name = 'post'
 
 
-ImageFormSet = modelformset_factory(Image, ImageForm, extra=1)
-
-
 class CreatePostView(CreateView):
     template_name = 'edit_post.html'
     model = Post
+
+    @method_decorator(login_required(login_url='/accounts/login/'))
+    def dispatch(self, *args, **kwargs):
+        return super(CreatePostView, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -68,6 +59,10 @@ class CreatePostView(CreateView):
 class EditPostView(UpdateView):
     template_name = 'edit_post.html'
     model = Post
+
+    @method_decorator(login_required(login_url='/accounts/login/'))
+    def dispatch(self, *args, **kwargs):
+        return super(EditPostView, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -104,3 +99,7 @@ class EditPostView(UpdateView):
 class DeletePostView(DeleteView):
     model = Post
     success_url = '/'
+
+    @method_decorator(login_required(login_url='/accounts/login/'))
+    def dispatch(self, *args, **kwargs):
+        return super(EditPostView, self).dispatch(*args, **kwargs)
